@@ -29,9 +29,7 @@ public class CardDeliveryOrder {
 
     @BeforeEach
     public void setUp() {
-//        Configuration.holdBrowserOpen = true; //не закрывает браузер по оканчанию теста
-//        Configuration.browserSize = "800x800"; //размер открывающегося окна
-        open("http://localhost:9999/");
+       open("http://localhost:9999/");
     }
 
     @ParameterizedTest
@@ -49,10 +47,7 @@ public class CardDeliveryOrder {
         $("[data-test-id='agreement']").click();
         $(".button").click();
 
-//        $(".notification__content").shouldBe(visible, Duration.ofSeconds(15)); // Duration.ofSeconds(15)-выставляем ожидание отклика на определенное время
-//        $x("//*[contains(text(),'Встреча успешно забронирована на ')]").should(appear, Duration.ofSeconds(15)); //выражение xpath, contains(Text(),"")-поиск по тексту
         $(withText(this.message)).shouldHave(visible, Duration.ofSeconds(15)).shouldBe(text(this.date));
-//        $(withText("Встреча успешно забронирована на")).shouldBe(text(this.date));
     }
 
     @ParameterizedTest
@@ -67,7 +62,6 @@ public class CardDeliveryOrder {
     })
     public void shouldTestIncorrectEnterCity(String text, String name, String error) {
         $$x("//input[@placeholder='Город']").exclude(hidden).first().setValue(name);
-//        exclude-исключает (hidden)- не видемые first()-используем первый из оставшихся
         $("[data-test-id='date'] input").sendKeys( Keys.CONTROL +"A",Keys.DELETE);
         $("[data-test-id='date'] input").setValue(this.date);
         $("[data-test-id='name'] input").setValue("Анна-петровна");
@@ -76,9 +70,6 @@ public class CardDeliveryOrder {
         $(".button").click();
 
         $("[data-test-id=city].input_invalid .input__sub").shouldBe(visible).should(text(error));
-//        $$x("//*[contains(text(),'Доставка в выбранный город недоступна')]").filter(visible).last().shouldBe(visible); // не работает при пустом значении- другой текст "Поле обязательно для заполнения"
-//    filter- фильтруем по (visible)- видимым на странице last()-выбираем последний элемент по отфильтрованным
-//        $(withText(error)).shouldHave(visible, Duration.ofSeconds(15));
     }
 
     @ParameterizedTest
